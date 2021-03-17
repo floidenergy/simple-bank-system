@@ -20,7 +20,7 @@ bool account::setUserName(string value){
 }
 
 bool account::changePassword(){
-    if(GetAuthontification){
+    if(account::GetAuthontification){
         string input;
         string input2;
         char c;
@@ -55,7 +55,7 @@ bool account::changePassword(){
             system("cls");
             return true;
 
-        }else if(inpute != input2){
+        }else if(input != input2){
             system("cls");
             cout << "\n\t\t\t==================================================" << endl
                  << "\t\t\t||\t\tPASSWORD INPUTE DOESNT MUCH !!\t\t    ||" << endl
@@ -64,7 +64,7 @@ bool account::changePassword(){
             system("cls");
         }
 
-    }else if(!GetAuthontification){
+    }else if(!account::GetAuthontification){
         system("cls");
         cout << "\t\t\t==================================================" << endl
              << "\t\t\t||\tERROR PLEASE ENTER A VALID PASSWORD\t||" << endl
@@ -83,7 +83,7 @@ bool account::GetAuthontification(){
     
     letter = _getch();
     while(letter != 13){
-        pwCheck.push_back(c);
+        pwCheck.push_back(letter);
         letter = _getch();
         cout << "*";
     }
@@ -97,14 +97,15 @@ bool account::GetAuthontification(){
     _sleep(100);
     }
     cout << "\n\t\t\t==================================================" << endl;
-    cout << "\t\t\t\t"
+    cout << "\t\t\t\t";
     
     if(pwCheck == password){
         cout << "\t\t\t\tAUTHONTIFICATION SUCCESSFULY" << endl;
         _sleep(9000);
         system("cls");
         return true;
-    }else if(pwCheck != password){
+    }
+    if(pwCheck != password){
         cout << "\t\t\t\tAUTHONTIFICATION DENIED" << endl;
         _sleep(9000);
         system("cls");
@@ -113,13 +114,19 @@ bool account::GetAuthontification(){
 }
 
 bool account::setBalance(int value){
-    if(GetAuthontification){
+    if(account::GetAuthontification){
         balance += value;
+        return true;
+    }else if(!account::GetAuthontification){
+        return false;
     }
 }
 
 bool account::throwBalance(int value){
-    if(GetAuthontification){
+    if(account::GetAuthontification){
         balance -= value;
+        return true;
+    }else if(!account::GetAuthontification){
+        return false;
     }
 }

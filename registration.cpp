@@ -37,11 +37,14 @@ account login(){
     if(userfile){
         account user;
         
-        user.setUserName()
+        user.setUserName(username)
     }else if(!userfile){
         cout << "\n\t\t\t==================================================" << endl
              << "\t\t\t||\tERROR USER NOT FOUND IN DATABASE\t||" << endl
              << "\t\t\t==================================================" << endl;
+
+            _SLEEP(9000);
+            exit(EXIT_FAILURE);
     }
 
 }
