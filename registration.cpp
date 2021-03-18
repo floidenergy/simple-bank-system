@@ -3,26 +3,103 @@
 #include <string>
 #include <vector>
 #include <conio.h>
+#include <unistd.h>
 #include "accounts.h"
 
 using namespace std;
 
 string passWord, username;
 fstream userfile;
+string dataBasePath = "database\\";
+
+account user;
 
 int menue();
 
-account regist(){
+void regist(){
+    system("cls");
+    string usernameINP;
+    string passwordINP;
+    string passwordINP2;
+    char letter;
+
+    cout << "\t\t\t//////////////////////////////////////////////////" << endl
+    << "\t\t\t\t||\t\tSIGN UP\t\t|| " << endl
+    << "\t\t\t==================================================" << endl
+    << "\t\t\t\t\tSET USERNAME: " ;
+
+    cin >> usernameINP;
+
+    system("cls");
+
+    cout << "\t\t\t//////////////////////////////////////////////////" << endl
+         << "\t\t\t\t||\t\tSIGN UP\t\t|| " << endl
+         << "\t\t\t==================================================" << endl
+         << "\t\t\t\t\tSET A PASSWORD: " ;
+
+    letter = _getch();
+    while(letter != 13){
+        cout << "*";
+        passwordINP.push_back(letter);
+        letter = _getch();
+    }
+
+    system("cls");
+
+    cout << "\n\t\t\t//////////////////////////////////////////////////" << endl
+         << "\t\t\t\t||\t\tSIGN UP\t\t|| " << endl
+         << "\n\t\t\t==================================================" << endl
+         << "\t\t\t\t\tSET A PASSWORD: " ;
+
+    letter = NULL;
+
+    letter = _getch();
+    while(letter != 13){
+        cout << "*";
+        passwordINP2.push_back(letter);
+        letter = _getch();
+    }
     
+    system("cls");
+    if(passwordINP == passwordINP2){
+        cout << "\n\t\t\t//////////////////////////////////////////////////" << endl
+             << "\t\t\t||\t\tREGISTRED SUCCESSEFULLY\t\t|| " << endl
+             << "\n\t\t\t==================================================" << endl;
+
+        cout << "\n\t\t\t//////////////////////////////////////////////////" << endl;
+        cout << "\t\tLOADING\t||";
+    
+        for(int i = 0; i < 48; i++){
+            cout << "#";
+            usleep(100000);
+        }
+        
+        user.setUserName(usernameINP);
+        user.setPassword(passwordINP2);
+        user.isConnected = true;
+
+        userfile.open("data\\" + user.getUserName() + ".txt", fstream::in | fstream::out | fstream::app);
+        
+        
+        //userfile.open(dataBasePath + user.getUserName() + ".txt");
+        userfile << user.getUserName() << endl << user.getpassword() << endl << user.getBalance() << endl;
+        getch();
+    }else if(passwordINP != passwordINP2){
+        cout << "denied" << endl;
+        usleep(9000);
+        system("cls");
+        regist();
+    }
+
 }
 
-account login(){
+void login(){
     system("cls");
     char c;
     cout << "\t\t\t//////////////////////////////////////////////////" << endl
-    << "\t\t\t||\t\t\tLOGIN IN \t\t|| " << endl
-    << "\t\t\t==================================================" << endl
-    << "\t\t\t\t\tUSERNAME: " ;
+         << "\t\t\t||\t\t\tLOGIN IN \t\t|| " << endl
+         << "\t\t\t==================================================" << endl
+         << "\t\t\t\t\tUSERNAME: " ;
     cin >> username;
     cout << "\n\t\t\t==================================================" << endl
          << "\t\t\t\t\tPASSWORD: ";
@@ -32,41 +109,45 @@ account login(){
         cout << "*";
         c = _getch();
     }
-    userfile.open("database\\" + username + ".txt");
+    userfile.open("data\\" + username + ".txt", fstream::in | fstream::out | fstream::app);
 
     if(userfile){
-        account user;
         
-        user.setUserName(username)
+        user.setUserName(username);
+        user.setPassword(passWord);
+
+        user.isConnected = true;
+        
+
     }else if(!userfile){
         cout << "\n\t\t\t==================================================" << endl
              << "\t\t\t||\tERROR USER NOT FOUND IN DATABASE\t||" << endl
              << "\t\t\t==================================================" << endl;
 
-            _SLEEP(9000);
-            exit(EXIT_FAILURE);
+            usleep(9000);
+            
     }
 
 }
 
 int main()
 {
-    _menue:
-    int choice = menue();
-    if( choice == 1){
-        login();
-    }else if(choice == 2){
-        regist();
-    }else{
-        system("cls");
-        cout << "\t\t\t==================================================" << endl
-             << "\t\t\t||\tERROR PLEASE ENTER A VALID CHOICE\t||" << endl
-             << "\t\t\t==================================================" << endl;
-        getch();
-        system("cls");
-        goto _menue;
+    while(!user.isConnected){
+        int choice = menue();
+        if( choice == 1){
+            login();
+        }else if(choice == 2){
+            regist();
+        }else{
+            system("cls");
+            cout << "\t\t\t==================================================" << endl
+                 << "\t\t\t||\tERROR PLEASE ENTER A VALID CHOICE\t||" << endl
+                 << "\t\t\t==================================================" << endl;
+            getch();
+            system("cls");
+            
+        }
     }
-    
     return 0;
 }
 

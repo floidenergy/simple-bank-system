@@ -20,7 +20,7 @@ bool account::setUserName(string value){
 }
 
 bool account::changePassword(){
-    if(account::GetAuthontification){
+    if(account::GetAuthontification()){
         string input;
         string input2;
         char c;
@@ -64,7 +64,7 @@ bool account::changePassword(){
             system("cls");
         }
 
-    }else if(!account::GetAuthontification){
+    }else if(!account::GetAuthontification()){
         system("cls");
         cout << "\t\t\t==================================================" << endl
              << "\t\t\t||\tERROR PLEASE ENTER A VALID PASSWORD\t||" << endl
@@ -114,19 +114,31 @@ bool account::GetAuthontification(){
 }
 
 bool account::setBalance(int value){
-    if(account::GetAuthontification){
+    if(account::GetAuthontification()){
         balance += value;
         return true;
-    }else if(!account::GetAuthontification){
+    }else if(!account::GetAuthontification()){
         return false;
     }
 }
 
 bool account::throwBalance(int value){
-    if(account::GetAuthontification){
+    if(account::GetAuthontification()){
         balance -= value;
         return true;
-    }else if(!account::GetAuthontification){
+    }else if(!account::GetAuthontification()){
         return false;
     }
+}
+
+void account::setPassword(string value){
+    password = value;
+}
+
+string account::getpassword(){
+    return password;
+}
+
+int account::getBalance(){
+    return balance;
 }

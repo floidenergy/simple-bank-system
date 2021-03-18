@@ -8,16 +8,20 @@ class account{
     string password;
     string fullName;
     int balance;
-    bool isConnected;
+    
 
     bool GetAuthontification();
 
     public:
+    bool isConnected = false;
     string getUserName();
     bool setUserName(string value);
     bool changePassword();
     bool setBalance(int value);
     bool throwBalance(int value);
+    void setPassword(string value);
+    string getpassword();
+    int getBalance();
     
 };
 
