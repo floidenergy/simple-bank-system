@@ -51,7 +51,7 @@ bool account::changePassword(){
             cout << "\n\t\t\t==================================================" << endl
                  << "\t\t\t||\t\tSET UP SECCUSFULLY\t\t    ||" << endl
                  << "\t\t\t==================================================" << endl;
-            _sleep(9000);
+            getch();
             system("cls");
             return true;
 
@@ -60,7 +60,7 @@ bool account::changePassword(){
             cout << "\n\t\t\t==================================================" << endl
                  << "\t\t\t||\t\tPASSWORD INPUTE DOESNT MUCH !!\t\t    ||" << endl
                  << "\t\t\t==================================================" << endl;
-            _sleep(9000);
+            getch();
             system("cls");
         }
 
@@ -94,20 +94,20 @@ bool account::GetAuthontification(){
     
     for(int i = 0; i < 48; i++){
         cout << "#";
-    _sleep(100);
+    getch();
     }
     cout << "\n\t\t\t==================================================" << endl;
     cout << "\t\t\t\t";
     
     if(pwCheck == password){
         cout << "\t\t\t\tAUTHONTIFICATION SUCCESSFULY" << endl;
-        _sleep(9000);
+        getch();
         system("cls");
         return true;
     }
     if(pwCheck != password){
         cout << "\t\t\t\tAUTHONTIFICATION DENIED" << endl;
-        _sleep(9000);
+        getch();
         system("cls");
         return false;
     }    

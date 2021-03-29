@@ -1,7 +1,7 @@
 #ifndef _ACCOUNT_H_
 #define _ACCOUNT_H_
 
-using std::string;
+using namespace std;
 
 class account{
     string username;
