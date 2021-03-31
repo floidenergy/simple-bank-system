@@ -79,13 +79,13 @@ bool account::GetAuthontification(){
     cout << "\t\t\t//////////////////////////////////////////////////" << endl
         << "\t\t\t||\t\t\tSECURITY CHECK\t\t|| " << endl
         << "\t\t\t==================================================" << endl
-        << "\t\t\t||\t\tENTER YOUR PASSWORD: " << endl;
+        << "\t\t\t\t\tENTER YOUR PASSWORD: ";
     
     letter = _getch();
     while(letter != 13){
-        pwCheck.push_back(letter);
-        letter = _getch();
         cout << "*";
+        letter = _getch();
+        pwCheck.push_back(letter);
     }
 
     // loading animation
@@ -94,7 +94,7 @@ bool account::GetAuthontification(){
     
     for(int i = 0; i < 48; i++){
         cout << "#";
-    getch();
+        _sleep(50);
     }
     cout << "\n\t\t\t==================================================" << endl;
     cout << "\t\t\t\t";
@@ -141,4 +141,17 @@ string account::getpassword(){
 
 int account::getBalance(){
     return balance;
+}
+
+void account::setID(string first, string last){
+    FirstName = first;
+    LastName = last;
+}
+
+string account::getFirstn(){
+    return FirstName;
+}
+
+string account::getLastn(){
+    return LastName;
 }

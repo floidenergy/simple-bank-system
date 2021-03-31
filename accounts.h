@@ -7,6 +7,8 @@ class account{
     string username;
     string password;
     string fullName;
+    string FirstName;
+    string LastName;
     int balance;
     
 
@@ -22,6 +24,9 @@ class account{
     void setPassword(string value);
     string getpassword();
     int getBalance();
+    void setID(string first, string last);
+    string getFirstn();
+    string getLastn();
     
 };
 

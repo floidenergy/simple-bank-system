@@ -10,59 +10,85 @@ using namespace std;
 
 int menue()
 {
-    int choice;
+    char choice;
     cout << "\t\t\t//////////////////////////////////////////////////" << endl
          << "\t\t\t||\t\tWELCOME TO THE SYSTEM\t\t|| " << endl
          << "\t\t\t==================================================" << endl
          << "\t\t\t||\t\t1- LOGIN\t\t\t||" << endl
          << "\t\t\t||\t\t2- REGISTER\t\t\t||" << endl
          << "\t\t\t==================================================" << endl;
-    cin >> choice;
+    choice = _getch();
 
     return choice;
 }
 
-account login(){
+void login(account &user){
     string usnm;
     string psw;
+    string fsName, lsName;
+    int balance;
     
     string pswd, usnmd;
 
     system("cls");
 
-    cout << "\nUSERNAME: ";
+    cout << "\t\t\t//////////////////////////////////////////////////" << endl
+         << "\t\t\t\t\tUSERNAME: ";
     cin >> usnm;
 
-    cout << "\nPASSWORD: ";
+    cout << "\t\t\t//////////////////////////////////////////////////" << endl
+         << "\t\t\t\t\tPASSWORD: ";
     cin >> psw;
     
     fstream userFile ("data\\" + usnm + ".txt");
     if(!userFile.is_open()){
         cout << "USER NOT FOUND !!!" << endl;
         getch();
+        system("cls");
+        return;
     }
     getline(userFile, usnmd);
     getline(userFile, pswd);
+    getline(userFile, fsName);
+    getline(userFile, lsName);
+    userFile >> balance;
 
     if(psw == pswd && usnm == usnmd){
         system("cls");
-        cout << "accepted";
+        cout << "\t\t\t//////////////////////////////////////////////////" << endl
+             << "\t\t\t||\t\tLOGIN SUCCESSFULLY\t\t|| " << endl
+             << "\t\t\t==================================================" << endl;
         getch();
+
+        user.isConnected = true;
+        user.setUserName(usnmd);
+        user.setPassword(pswd);
+        user.setID(fsName, lsName);
+        user.setBalance(balance);
+        
+        system("cls");
     }else{
         system("cls");
-        cout << "denied" ;
+
+        cout << "\t\t\t//////////////////////////////////////////////////" << endl
+             << "\t\t\t||\t\t\tLOGIN DENIED\t\t\t|| " << endl
+             << "\t\t\t==================================================" << endl;
+        
         getch();
+        system("cls");
     }
 }
 
 void regist(){
     system("cls");
-    string username, password;
+    string username, password, data;
     char a;
-    cout << "USERNAME: ";
+    cout << "\t\t\t//////////////////////////////////////////////////" << endl
+         << "\t\t\t\t\tUSERNAME: ";
     cin >> username;
-    system("cls");
-    cout << "PASSWORD: ";
+    
+    cout << "\t\t\t//////////////////////////////////////////////////" << endl
+         << "\t\t\t\t\tPASSWORD: ";
     a = _getch();
     while(a != 13){
         password.push_back(a);
@@ -71,44 +97,71 @@ void regist(){
     } 
     
     string path = "data\\" + username + ".txt";
-    fstream checkfile (path);
 
-    if(checkfile.is_open()){
+    fstream checkFile (path, ios::out | ios::in);
+
+    if(checkFile.is_open()){
         system("cls");
-        char c;
-        cout << "USER FILE ALREADY EXISTE, DO YOU WANNA OVERIDE IT ? [Y/N]: ";
-        c = _getch();
-        if(tolower(c) == 'y'){
-            //remove(path);
-        }else if(tolower(c) == 'n'){
+        cout << "\n\t\t\t//////////////////////////////////////////////////" << endl
+             << "\t\t\t||\t\tUSER ALREADY EXISTE\t\t|| " << endl
+             << "\t\t\t==================================================" << endl;
+            
+            getch();
+            system("cls");
             return;
-        }
     }
 
-    fstream userfile ("data\\" + username + ".txt", ios::in | ios::out);
+    fstream userfile (path, ios::in | ios::out | ios::app);
     userfile << username << endl;
     userfile << password << endl;
+
+    cout << "\n\t\t\t//////////////////////////////////////////////////" << endl
+         << "\t\t\t\t\tFIST NAME: ";
+    cin >> data;
+    userfile << data << endl;
+        
+    cout << "\n\t\t\t//////////////////////////////////////////////////" << endl
+         << "\t\t\t\t\tLAST NAME: ";
+    cin >> data;
+    userfile << data << endl;
+    system("cls");
+
     userfile << 0 ;
+
+
     cout << "\nregistred successfully !!!";
     getch();
     system("cls");    
 }
 
 int main(){
-    account user;
-    while(!user.isConnected){
-        menue:
-        int choice = menue();
-        if(choice == 1){
-            login();
-        }else if(choice == 2){
-            regist();
-        }else{
-            cout << "ERRORE!!! Please enter a valid Input";
+    while(true){
+        account user;
+        while(!user.isConnected){
+            char choice = menue();
+            if(choice == '1'){
+                login(user);
+            }else if(choice == '2'){
+                regist();
+            }else{
+                system("cls");
+                cout << "\n\t\t\t//////////////////////////////////////////////////" << endl
+                    << "\t\t\t||\tERRORE!!! PLEASE ENTER A VALID INPUTE\t|| " << endl
+                    << "\t\t\t==================================================" << endl;
+                getch();
+                system("cls");
+            }
+        }
+
+        system("cls");
+
+        while(user.isConnected){
+            cout << "*FIRST NAME: " + user.getFirstn() << endl
+                 << "*LAST NAME: " + user.getLastn() << endl
+                 << "*BALANCE: " + user.getBalance() << endl;
+            
             getch();
-            goto menue;
         }
     }
-
     return 0;
 }
