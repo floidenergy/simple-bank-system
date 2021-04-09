@@ -114,21 +114,13 @@ bool account::GetAuthontification(){
 }
 
 bool account::setBalance(int value){
-    if(account::GetAuthontification()){
         balance += value;
         return true;
-    }else if(!account::GetAuthontification()){
-        return false;
-    }
 }
 
 bool account::throwBalance(int value){
-    if(account::GetAuthontification()){
         balance -= value;
         return true;
-    }else if(!account::GetAuthontification()){
-        return false;
-    }
 }
 
 void account::setPassword(string value){

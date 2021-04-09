@@ -26,7 +26,9 @@ void login(account &user){
     string usnm;
     string psw;
     string fsName, lsName;
+    string bal;
     int balance;
+    char c[15];
     
     string pswd, usnmd;
 
@@ -51,8 +53,10 @@ void login(account &user){
     getline(userFile, pswd);
     getline(userFile, fsName);
     getline(userFile, lsName);
-    userFile >> balance;
-
+    getline(userFile, bal);
+    //cout << usnmd << endl << pswd << endl << fsName << endl << lsName << endl << bal << endl;
+    
+    cerr << c;
     if(psw == pswd && usnm == usnmd){
         system("cls");
         cout << "\t\t\t//////////////////////////////////////////////////" << endl
@@ -64,7 +68,7 @@ void login(account &user){
         user.setUserName(usnmd);
         user.setPassword(pswd);
         user.setID(fsName, lsName);
-        user.setBalance(balance);
+        user.setBalance(stoi(bal));
         
         system("cls");
     }else{
@@ -156,9 +160,10 @@ int main(){
         system("cls");
 
         while(user.isConnected){
-            cout << "*FIRST NAME: " + user.getFirstn() << endl
-                 << "*LAST NAME: " + user.getLastn() << endl
-                 << "*BALANCE: " + user.getBalance() << endl;
+            cout << "*FIRST NAME: " + user.getFirstn() << endl;
+            cout << "*LAST NAME: " + user.getLastn() << endl;
+            printf("*BALANCE: %d", user.getBalance());
+            //cout << "*BALANCE: " + to_string(user.getBalance()) << endl;
             
             getch();
         }
