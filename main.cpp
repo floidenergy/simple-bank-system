@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <ctype.h>
+#include <unistd.h>
+#include <windows.h>
 #include "accounts.h"
 
 using namespace std;
@@ -43,7 +45,7 @@ void login(account &user){
          << "\t\t\t\t\tPASSWORD: ";
     cin >> psw;
     
-    fstream userFile ("data\\" + usnm + ".txt");
+    fstream userFile ("data\\" + usnm);
     if(!userFile.is_open()){
         cout << "USER NOT FOUND !!!" << endl;
         getch();
@@ -100,7 +102,7 @@ void regist(){
         a = _getch();
     } 
     
-    string path = "data\\" + username + ".txt";
+    string path = "data\\" + username;
 
     fstream checkFile (path, ios::out | ios::in);
 
@@ -144,7 +146,7 @@ void addBal(account &u){
     system("cls");
     u.setBalance(value);
     string path;
-    path = ("data\\" + u.getUserName() + ".txt");
+    path = ("data\\" + u.getUserName());
     ofstream f (path, ios::out | ios::trunc);
     f << u.getUserName() << endl
         << u.getpassword() << endl
@@ -162,7 +164,7 @@ void throwBal(account &u){
     system("cls");
     u.throwBalance(value);
     string path;
-    path = ("data\\" + u.getUserName() + ".txt");
+    path = ("data\\" + u.getUserName());
     ofstream f (path, ios::out | ios::trunc);
     f << u.getUserName() << endl
         << u.getpassword() << endl
@@ -202,7 +204,7 @@ void changePass(account &u){
     u.setPassword(value);
     
     string path;
-    path = ("data\\" + u.getUserName() + ".txt");
+    path = ("data\\" + u.getUserName());
     ofstream f (path, ios::out | ios::trunc);
     f << u.getUserName() << endl
         << u.getpassword() << endl
@@ -213,6 +215,7 @@ void changePass(account &u){
 }
 
 int main(){
+    mkdir("data");
     while(true){
         account user;
         while(!user.isConnected){
