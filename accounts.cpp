@@ -5,6 +5,13 @@
 
 using namespace std;
 
+//constructors
+account::account()
+    :balance {0}{
+
+}
+
+//functions emplimentation
 string account::getUserName(){
     return username;
 }

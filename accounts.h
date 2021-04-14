@@ -27,7 +27,8 @@ class account{
     void setID(string first, string last);
     string getFirstn();
     string getLastn();
-    
+    account();
+
 };
 
 #endif
