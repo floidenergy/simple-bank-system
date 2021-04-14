@@ -16,6 +16,7 @@ int menue()
          << "\t\t\t==================================================" << endl
          << "\t\t\t||\t\t1- LOGIN\t\t\t||" << endl
          << "\t\t\t||\t\t2- REGISTER\t\t\t||" << endl
+         << "\t\t\t||\t\t3_ EXIT\t\t\t\t||" << endl
          << "\t\t\t==================================================" << endl;
     choice = _getch();
 
@@ -56,7 +57,6 @@ void login(account &user){
     getline(userFile, bal);
     //cout << usnmd << endl << pswd << endl << fsName << endl << lsName << endl << bal << endl;
     
-    cerr << c;
     if(psw == pswd && usnm == usnmd){
         system("cls");
         cout << "\t\t\t//////////////////////////////////////////////////" << endl
@@ -75,7 +75,7 @@ void login(account &user){
         system("cls");
 
         cout << "\t\t\t//////////////////////////////////////////////////" << endl
-             << "\t\t\t||\t\t\tLOGIN DENIED\t\t\t|| " << endl
+             << "\t\t\t||\t\tLOGIN DENIED\t\t\t|| " << endl
              << "\t\t\t==================================================" << endl;
         
         getch();
@@ -132,10 +132,84 @@ void regist(){
 
     userfile << 0 ;
 
-
     cout << "\nregistred successfully !!!";
     getch();
     system("cls");    
+}
+
+void addBal(account &u){
+    cout << "How many u wanna add: ";
+    int value ;
+    cin >> value;
+    system("cls");
+    u.setBalance(value);
+    string path;
+    path = ("data\\" + u.getUserName() + ".txt");
+    ofstream f (path, ios::out | ios::trunc);
+    f << u.getUserName() << endl
+        << u.getpassword() << endl
+        << u.getFirstn() << endl
+        << u.getLastn() << endl
+        << u.getBalance();
+    cout << "Balance Added Successfuly.";
+    f.close();
+}
+
+void throwBal(account &u){
+    cout << "How Many You Wanna Throw: ";
+    int value;
+    cin >> value;
+    system("cls");
+    u.throwBalance(value);
+    string path;
+    path = ("data\\" + u.getUserName() + ".txt");
+    ofstream f (path, ios::out | ios::trunc);
+    f << u.getUserName() << endl
+        << u.getpassword() << endl
+        << u.getFirstn() << endl
+        << u.getLastn() << endl
+        << u.getBalance();
+    f.close();
+}
+
+void changePass(account &u){
+    system("cls");
+    cout << "enter your new password: ";
+
+    string value, value2;
+    char a;
+
+    a = _getch();
+    while(a != 13){
+        value.push_back(a);
+        cout << "*";
+        a = _getch();
+    }
+    cout << endl << "re-enter your new password: ";
+    
+    a = _getch();
+    while(a != 13){
+        value2.push_back(a);
+        cout << "*";
+        a = _getch();
+    }
+
+    if (value != value2){
+        cout << "password doesnt much:";
+        _sleep(3000);
+        return;
+    }
+    u.setPassword(value);
+    
+    string path;
+    path = ("data\\" + u.getUserName() + ".txt");
+    ofstream f (path, ios::out | ios::trunc);
+    f << u.getUserName() << endl
+        << u.getpassword() << endl
+        << u.getFirstn() << endl
+        << u.getLastn() << endl
+        << u.getBalance();
+    f.close();
 }
 
 int main(){
@@ -147,6 +221,8 @@ int main(){
                 login(user);
             }else if(choice == '2'){
                 regist();
+            }else if(choice == '3'){
+                exit(0);
             }else{
                 system("cls");
                 cout << "\n\t\t\t//////////////////////////////////////////////////" << endl
@@ -157,15 +233,59 @@ int main(){
             }
         }
 
-        system("cls");
-
         while(user.isConnected){
-            cout << "*FIRST NAME: " + user.getFirstn() << endl;
-            cout << "*LAST NAME: " + user.getLastn() << endl;
-            printf("*BALANCE: %d", user.getBalance());
-            //cout << "*BALANCE: " + to_string(user.getBalance()) << endl;
+            system("cls");
+            fstream userFile ("data\\" + user.getUserName() + ".txt");
             
-            getch();
+
+            cout << "*FIRST NAME: " + user.getFirstn() << endl
+                 << "*LAST NAME: " + user.getLastn() << endl
+                 << "*BALANCE: " << user.getBalance() << endl
+                 << "=========================================" << endl;
+            
+            
+            cout << "1_ Add Balance" << endl
+                 << "2_ Throw Balance" << endl
+                 << "3_ Settings" << endl
+                 << "4_ Disconnect" << endl
+                 << "5_ Exit" << endl;
+            
+            char a = _getch();
+            
+            system("cls");
+
+            switch (a){
+                    
+                case '1':{
+                    addBal(user);
+                    _sleep(3000);
+                }break;
+                    
+                case '2':{
+                    throwBal(user);
+                }break;
+                    
+                case '3':{
+                    cout << "1_ Change Password" << endl
+                        << "0_ return" << endl;
+                    char a = _getch();
+                    switch(a){
+                        case '1':
+                            changePass(user);
+                            break;
+                    }
+                }break;
+                
+                case '4':{
+                    user.isConnected = false;
+                }break;
+                case '5':{
+                    cout << "GOOD BY Mr." << user.getLastn();
+                    _sleep(3000);
+                    exit(0);
+                }break;
+            }
+            
         }
     }
     return 0;
